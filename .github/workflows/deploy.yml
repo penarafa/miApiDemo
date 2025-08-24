@@ -1,0 +1,46 @@
+name: Deploy to AWS Elastic Beanstalk
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Configurar .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restaurar dependencias
+        run: dotnet restore
+
+      - name: Compilar proyecto
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Publicar artefacto
+        run: dotnet publish -c Release -o ./publish
+
+      - name: Instalar AWS CLI
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Desplegar a Elastic Beanstalk
+        run: |
+          zip -r deploy.zip ./publish
+          aws elasticbeanstalk create-application-version \
+            --application-name MiApiDemo \
+            --version-label $GITHUB_SHA \
+            --source-bundle S3Bucket="mi-bucket-s3",S3Key="deploy-$GITHUB_SHA.zip"
+
+          aws elasticbeanstalk update-environment \
+            --environment-name MiApiDemo-env \
+            --version-label $GITHUB_SHA
