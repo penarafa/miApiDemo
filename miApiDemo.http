@@ -1,0 +1,6 @@
+@miApiDemo_HostAddress = http://localhost:5038
+
+GET {{miApiDemo_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
