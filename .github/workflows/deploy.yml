@@ -1,11 +1,11 @@
-name: Deploy to AWS Elastic Beanstalk
+name: Deploy to EKS
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,32 +15,37 @@ jobs:
       - name: Configurar .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '9.0.x'
+          dotnet-version: '8.0.x'
 
-      - name: Restaurar dependencias
-        run: dotnet restore
-
-      - name: Compilar proyecto
-        run: dotnet build --configuration Release --no-restore
-
-      - name: Publicar artefacto
+      - name: Compilar app
         run: dotnet publish -c Release -o ./publish
 
-      - name: Instalar AWS CLI
+      - name: Login en AWS
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Desplegar a Elastic Beanstalk
-        run: |
-          zip -r deploy.zip ./publish
-          aws elasticbeanstalk create-application-version \
-            --application-name miApiDemo \
-            --version-label $GITHUB_SHA \
-            --source-bundle S3Bucket="mi-bucket-s3",S3Key="deploy-$GITHUB_SHA.zip"
+      - name: Login en ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
-          aws elasticbeanstalk update-environment \
-            --environment-name miApiDemo-env \
-            --version-label $GITHUB_SHA
+      - name: Build, Tag y Push Docker
+        run: |
+          IMAGE_URI=${{ steps.login-ecr.outputs.registry }}/miapi:${{ github.sha }}
+          docker build -t $IMAGE_URI .
+          docker push $IMAGE_URI
+          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
+
+      - name: Configurar kubectl
+        uses: aws-actions/amazon-eks-login@v1
+        with:
+          cluster-name: unique-classical-unicorn
+
+          region: us-east-1
+
+      - name: Aplicar manifests
+        run: |
+          sed -i "s|<tu_account_id>.dkr.ecr.us-east-1.amazonaws.com/miapi:latest|$IMAGE_URI|" deployment.yaml
+          kubectl apply -f deployment.yaml
