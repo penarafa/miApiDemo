@@ -42,10 +42,9 @@ jobs:
         uses: aws-actions/amazon-eks-login@v1
         with:
           cluster-name: unique-classical-unicorn
-
           region: us-east-1
 
       - name: Aplicar manifests
         run: |
-          sed -i "s|<tu_account_id>.dkr.ecr.us-east-1.amazonaws.com/miapi:latest|$IMAGE_URI|" deployment.yaml
+          sed -i "s|703409456891.dkr.ecr.us-east-1.amazonaws.com/miapi:latest|$IMAGE_URI|" deployment.yaml
           kubectl apply -f deployment.yaml
