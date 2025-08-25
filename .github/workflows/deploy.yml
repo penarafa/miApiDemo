@@ -53,3 +53,4 @@ jobs:
         run: |
           sed -i "s|REPLACE_IMAGE_URI|$IMAGE_URI|" deployment.yaml
           kubectl apply -f deployment.yaml
+          kubectl apply -f service.yaml

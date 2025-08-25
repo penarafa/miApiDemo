@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: miapi-service
+  labels:
+    app: miapi
+spec:
+  type: LoadBalancer
+  selector:
+    app: miapi
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
