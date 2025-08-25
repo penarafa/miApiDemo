@@ -40,7 +40,7 @@ jobs:
 
       - name: Instalar kubectl (oficial AWS)
         run: |
-          curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.0/2024-03-12/bin/linux/amd64/kubectl
+          curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.3/2025-08-03/bin/linux/amd64/kubectl
           chmod +x ./kubectl
           sudo mv ./kubectl /usr/local/bin
           kubectl version --client
@@ -51,5 +51,5 @@ jobs:
 
       - name: Aplicar manifests
         run: |
-          sed -i "s|703409456891.dkr.ecr.us-east-1.amazonaws.com/miapi:latest|$IMAGE_URI|" deployment.yaml
+          sed -i "s|${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/miapi:latest|$IMAGE_URI|" deployment.yaml
           kubectl apply -f deployment.yaml
