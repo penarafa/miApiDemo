@@ -15,7 +15,7 @@ jobs:
       - name: Configurar .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '9.0.x'
 
       - name: Restaurar dependencias
         run: dotnet restore
@@ -37,10 +37,10 @@ jobs:
         run: |
           zip -r deploy.zip ./publish
           aws elasticbeanstalk create-application-version \
-            --application-name MiApiDemo \
+            --application-name miApiDemo \
             --version-label $GITHUB_SHA \
             --source-bundle S3Bucket="mi-bucket-s3",S3Key="deploy-$GITHUB_SHA.zip"
 
           aws elasticbeanstalk update-environment \
-            --environment-name MiApiDemo-env \
+            --environment-name miApiDemo-env \
             --version-label $GITHUB_SHA

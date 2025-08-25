@@ -1,0 +1,15 @@
+C:\Users\Rafael\TestStuff\CICD\Net Testing\miApiDemo\publish\miApiDemo.exe
+C:\Users\Rafael\TestStuff\CICD\Net Testing\miApiDemo\publish\publish\web.config
+C:\Users\Rafael\TestStuff\CICD\Net Testing\miApiDemo\publish\appsettings.Development.json
+C:\Users\Rafael\TestStuff\CICD\Net Testing\miApiDemo\publish\appsettings.json
+C:\Users\Rafael\TestStuff\CICD\Net Testing\miApiDemo\publish\publish\appsettings.Development.json
+C:\Users\Rafael\TestStuff\CICD\Net Testing\miApiDemo\publish\publish\appsettings.json
+C:\Users\Rafael\TestStuff\CICD\Net Testing\miApiDemo\publish\publish\miApiDemo.deps.json
+C:\Users\Rafael\TestStuff\CICD\Net Testing\miApiDemo\publish\publish\miApiDemo.runtimeconfig.json
+C:\Users\Rafael\TestStuff\CICD\Net Testing\miApiDemo\publish\publish\miApiDemo.staticwebassets.endpoints.json
+C:\Users\Rafael\TestStuff\CICD\Net Testing\miApiDemo\publish\miApiDemo.dll
+C:\Users\Rafael\TestStuff\CICD\Net Testing\miApiDemo\publish\miApiDemo.deps.json
+C:\Users\Rafael\TestStuff\CICD\Net Testing\miApiDemo\publish\miApiDemo.runtimeconfig.json
+C:\Users\Rafael\TestStuff\CICD\Net Testing\miApiDemo\publish\miApiDemo.pdb
+C:\Users\Rafael\TestStuff\CICD\Net Testing\miApiDemo\publish\Microsoft.AspNetCore.OpenApi.dll
+C:\Users\Rafael\TestStuff\CICD\Net Testing\miApiDemo\publish\Microsoft.OpenApi.dll

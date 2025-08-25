@@ -33,6 +33,10 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast");
 
+app.MapGet("/", () => "Hello World from .NET API in Docker!");
+
+app.Urls.Add("http://+:80");
+
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)

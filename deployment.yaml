@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: miapi-deployment
+  labels:
+    app: miapi
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: miapi
+  template:
+    metadata:
+      labels:
+        app: miapi
+    spec:
+      containers:
+        - name: miapi
+          image: <tu_account_id>.dkr.ecr.us-east-1.amazonaws.com/miapi:latest
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: miapi-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: miapi
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
