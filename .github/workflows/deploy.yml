@@ -51,5 +51,5 @@ jobs:
 
       - name: Aplicar manifests
         run: |
-          sed -i "s|${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/miapi:latest|$IMAGE_URI|" deployment.yaml
+          sed -i "s|REPLACE_IMAGE_URI||$IMAGE_URI|" deployment.yaml
           kubectl apply -f deployment.yaml
